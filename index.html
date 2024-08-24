@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- https://sum-server.100xdevs.com/sum?a=1&b=2  -->
+     <!-- https://sum-server.100xdevs.com/sum?a=${a}&b=${b} -->
+<head>
+    <script>
+        let id;
+        function debouncePopulateDiv(){
+            clearTimeout(id);
+            id = setTimeout(function(){
+                populateDiv()
+            },1000);
+        }
+        function populateDiv(){
+            const a=document.getElementById("num1").value;
+            const b=document.getElementById("num2").value;
+            console.log(a);
+            console.log(b);
+            const api =fetch(`https://sum-server.100xdevs.com/sum?a=${a}&b=${b}`).then(function(response){
+                response.text()
+                .then(function(ans){
+                    const element =document.getElementById("finalSum");
+                    element.innerHTML=`Total sum of input number is ${ans}`;
+                })
+            })
+            const element =document.getElementById("finalSum");
+            element.innerHTML=`Total sum of input number is ${api}`;
+        }
+      
+    </script>
+    
+</head>
+<body>
+    <input type="number" oninput=debouncePopulateDiv() placeholder="Enter number" id="num1"><br><br>
+    <input type="number" oninput=debouncePopulateDiv() placeholder="Enter number" id="num2"><br><br>
+    <!-- <button  onclick=populateDiv()>calculateSum</button> <br><br> -->
+    <div id="finalSum"></div>
+</body>
+</html>
